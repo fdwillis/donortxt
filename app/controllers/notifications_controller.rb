@@ -45,25 +45,45 @@ class NotificationsController < ApplicationController
 
         if (fundraiser && fundraiser.merchant_secret_key?) || fundraiser.admin?
           if donater && donater.card?
-            token = User.new_token(donater, crypt.decrypt_and_verify(donater.card_number))
+            begin
+              token = User.new_token(donater, crypt.decrypt_and_verify(donater.card_number))
+            rescue Stripe::CardError => e
+              body = e.json_body
+              err  = body[:error]
+              twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "#{err[:message]}"})
+              return
+            end
             if !fundraiser.admin?
               stripe_account_id = crypt.decrypt_and_verify(fundraiser.stripe_account_id)
-
-              if donation_type == 'monthly'  
-                subscription = User.subscribe_to_fundraiser(fundraiser.merchant_secret_key, donater, token.id, stripe_account_id, donation_plan)
-                @donation = donater.donations.create(application_fee: (subscription.plan.amount * (subscription.application_fee_percent / 100 ) / 100 ) , stripe_plan_name: subscription.plan.name, stripe_subscription_id: donation_plan ,active: true, donation_type: 'subscription', subscription_id: subscription.id, organization: raiser_username, amount: subscription.plan.amount, uuid: SecureRandom.uuid, fundraiser_stripe_account_id: fundraiser.merchant_secret_key)
-              else
-                charge = User.charge_n_process(fundraiser.merchant_secret_key, donater, stripe_amount, token.id, stripe_account_id )
-                Stripe.api_key = Rails.configuration.stripe[:secret_key]
-                @donation = donater.donations.create(application_fee: ((Stripe::ApplicationFee.retrieve(charge.application_fee).amount) / 100).to_f , donation_type: 'one-time', organization: raiser_username, amount: stripe_amount, uuid: SecureRandom.uuid)
+              begin
+                if donation_type == 'monthly'  
+                  subscription = User.subscribe_to_fundraiser(fundraiser.merchant_secret_key, donater, token.id, stripe_account_id, donation_plan)
+                  @donation = donater.donations.create(application_fee: (subscription.plan.amount * (subscription.application_fee_percent / 100 ) / 100 ) , stripe_plan_name: subscription.plan.name, stripe_subscription_id: donation_plan ,active: true, donation_type: 'subscription', subscription_id: subscription.id, organization: raiser_username, amount: subscription.plan.amount, uuid: SecureRandom.uuid, fundraiser_stripe_account_id: fundraiser.merchant_secret_key)
+                else
+                  charge = User.charge_n_process(fundraiser.merchant_secret_key, donater, stripe_amount, token.id, stripe_account_id )
+                  Stripe.api_key = Rails.configuration.stripe[:secret_key]
+                  @donation = donater.donations.create(application_fee: ((Stripe::ApplicationFee.retrieve(charge.application_fee).amount) / 100).to_f , donation_type: 'one-time', organization: raiser_username, amount: stripe_amount, uuid: SecureRandom.uuid)
+                end
+              rescue Stripe::CardError => e
+                body = e.json_body
+                err  = body[:error]
+                twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "#{err[:message]}"})
+                return
               end
             else
-              if donation_type == 'monthly'  
-                @subscription = User.subscribe_to_admin(donater, token.id, donation_plan )
-                @donation = donater.donations.create(stripe_plan_name: @subscription.plan.name, stripe_subscription_id: donation_plan ,active: true, donation_type: 'subscription', subscription_id: @subscription.id ,organization: raiser_username, amount: @subscription.plan.amount, uuid: SecureRandom.uuid)
-              else
-                User.charge_for_admin(donater, stripe_amount, token.id)
-                @donation = donater.donations.create(donation_type: 'one-time', organization: raiser_username, amount: stripe_amount, uuid: SecureRandom.uuid)
+              begin  
+                if donation_type == 'monthly'  
+                  @subscription = User.subscribe_to_admin(donater, token.id, donation_plan )
+                  @donation = donater.donations.create(stripe_plan_name: @subscription.plan.name, stripe_subscription_id: donation_plan ,active: true, donation_type: 'subscription', subscription_id: @subscription.id ,organization: raiser_username, amount: @subscription.plan.amount, uuid: SecureRandom.uuid)
+                else
+                  User.charge_for_admin(donater, stripe_amount, token.id)
+                  @donation = donater.donations.create(donation_type: 'one-time', organization: raiser_username, amount: stripe_amount, uuid: SecureRandom.uuid)
+                end
+              rescue Stripe::CardError => e
+                body = e.json_body
+                err  = body[:error]
+                twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "#{err[:message]}"})
+                return
               end
             end
 
@@ -92,7 +112,7 @@ class NotificationsController < ApplicationController
             @bitly_link = Bitly.client.shorten("#{ENV['NEW_DONATE_LINK']}amount=#{stripe_amount}&fundraiser_name=#{raiser_username}&phone_number=#{phone_number}&donation_plan=#{donation_plan}").short_url
 
             # Link to enter card info and create user profile
-            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please follow link to enter Credit Card details #{ENV['NEW_DONATE_LINK']}amount=#{stripe_amount}&fundraiser_name=#{raiser_username}&phone_number=#{phone_number}&donation_plan=#{donation_plan}"})
+            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please follow link to enter Credit Card details #{@bitly_link}"})
             return
           end
         else
