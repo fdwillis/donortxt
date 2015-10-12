@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :subscribe, only: [:update,:destroy]
 
   resources :pending_goals, only: :index
-  resources :fundraising_goals
+  # resources :fundraising_goals
 
   resources :merchants, only: [:index, :show], path: 'orgs'
   

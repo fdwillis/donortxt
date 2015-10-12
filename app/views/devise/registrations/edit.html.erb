@@ -441,7 +441,7 @@
                   <% if current_user.stripe_plan_id %>  
                     <div class="tab-pane" id="seller_plan">
                       <div class="col-md-4">
-                        <h3 class='text-center'>Cancel Merchant Plan: <%= current_user.stripe_plan_name %></h3>
+                        <h3 class='text-center'>Cancel Fundraiser Plan: <%= current_user.stripe_plan_name %></h3>
                         <div class="form-group text-center">
                           <p><%= button_to "Cancel", subscribe_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %></p>
                         </div>
