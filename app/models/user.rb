@@ -361,14 +361,9 @@ class User < ActiveRecord::Base
 
     def self.new_member(user, account_id, token, new_member_percent, member)
       if user.team_members.map(&:percent).sum + new_member_percent <= 100.00
-        if user.admin?
-          account = Stripe::Account.retrieve(Stripe::Account.retrieve().id)
-        else  
-          crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
-          account_id = crypt.decrypt_and_verify(account_id)
-          account = Stripe::Account.retrieve(account_id)
-        end
-        debugger
+        crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
+        account_id = crypt.decrypt_and_verify(account_id)
+        account = Stripe::Account.retrieve(account_id)
         bank_account = account.external_accounts.create(external_account: token)
         user.team_members.create(role: member[:role], uuid: SecureRandom.uuid,  name: member[:name], percent: member[:percent].to_f, stripe_bank_id: bank_account.id)
       end
