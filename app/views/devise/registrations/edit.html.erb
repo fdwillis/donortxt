@@ -101,7 +101,7 @@
                             <div class="form-group text-center">
                               <%= f.label :card_number, "Card Number" %>
                               <% if current_user.card_number? %>
-                                <%= f.text_field :card_number, class: 'form-control text-center', required: true, placeholder: "4000000000000077", maxlength: 16, value: @crypt.decrypt_and_verify(current_user.card_number) %>
+                                <%= f.text_field :card_number, class: 'form-control text-center', required: true, placeholder: "4000000000000077", maxlength: 16, value: current_user.mask(@crypt.decrypt_and_verify(current_user.card_number)) %>
                               <% else %>
                                 <%= f.text_field :card_number, class: 'form-control text-center', required: true, placeholder: "Enter card number", maxlength: 16 %>
                               <% end %>
