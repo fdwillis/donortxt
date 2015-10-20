@@ -18,9 +18,7 @@ class UsersController < ApplicationController
       end
 
       if params[:user][:address_country]
-        debugger
         current_user.update_attributes(address_country: params[:user][:address_country].upcase)
-        debugger
       end
 
       if params[:user][:tax_id]
