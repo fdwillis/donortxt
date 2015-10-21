@@ -26,7 +26,6 @@ before_filter :authenticate_user!
     @exp_month = params[:user][:exp_month]
     @exp_year = params[:user][:exp_year]
     @cvc_number = params[:user][:cvc_number]
-    @username = params[:user][:username]
     begin
       @token = Stripe::Token.create(
         card: {
@@ -42,13 +41,15 @@ before_filter :authenticate_user!
         },
       )
     rescue Stripe::CardError => e
-      flash[:error] = "#{e}"
+      body = e.json_body
+      err  = body[:error]
       redirect_to edit_user_registration_path
-      return
+      flash[:error] = "#{err[:message]}"
     rescue => e
-      flash[:error] = "#{e}"
+      body = e.json_body
+      err  = body[:error]
       redirect_to edit_user_registration_path
-      return
+      flash[:error] = "#{err[:message]}"
     end
     if !current_user.stripe_plan_id.nil?  
 
@@ -86,7 +87,7 @@ before_filter :authenticate_user!
           User.new_paying_merchant(request.location.data, request.remote_ip, subscription.plan.amount, current_user)
           
           current_user.update_attributes(slug: @username , marketplace_stripe_id: subscription.customer, 
-                                         username: @username , card_number: @card_number, exp_year: @exp_year, 
+                                         card_number: @card_number, exp_year: @exp_year, 
                                          exp_month: @exp_month, cvc_number: @cvc_number, stripe_plan_id: subscription.id,
                                          stripe_plan_name: subscription.plan.name, bitly_link: @bitly_link)
           current_user.roles.find_or_create_by(title: 'donations')
@@ -95,11 +96,15 @@ before_filter :authenticate_user!
           redirect_to edit_user_registration_path
           return
         rescue Stripe::CardError => e
-          flash[:error] = "#{e}"
+          body = e.json_body
+          err  = body[:error]
           redirect_to edit_user_registration_path
-          return
+          flash[:error] = "#{err[:message]}"
         rescue => e
-          flash[:error] = "#{e}"
+          body = e.json_body
+          err  = body[:error]
+          redirect_to edit_user_registration_path
+          flash[:error] = "#{err[:message]}"
         end
       end
     else
