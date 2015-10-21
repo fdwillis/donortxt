@@ -19,12 +19,9 @@ class MerchantsController < ApplicationController
   def show
     #Track for Merchant and Admin
     @name = User.friendly.find(params[:id]).username
-    @search = current_user.fundraising_goals.search(params[:q])
-    @fundraising_goals = @search.result.where(active: true).page(params[:page]).order('updated_at DESC')
     
     if User.friendly.find(params[:id]).account_approved? || User.friendly.find(params[:id]).admin?
       @merchant = User.friendly.find(params[:id])
-      @goals = @merchant.fundraising_goals.where(active:true)
       # if current_user != @merchant || !current_user
       #   if current_user
       #     User.profile_views(current_user.id, request.remote_ip, request.location.data, @merchant)
