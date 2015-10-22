@@ -14,11 +14,12 @@ class BankAccountsController < ApplicationController
 		  	flash[:error] = "Team Members Percentages Can't Exceed 100%"
 		  	return
 		  end
-
-	  rescue => e
-	  	redirect_to request.referrer
-	  	flash[:error] = "#{e}"
-	  	return
+	  rescue Stripe::StripeError => e
+      body = e.json_body
+      err  = body[:error]
+      redirect_to edit_user_registration_path
+      flash[:error] = "#{err[:message]}"	  	
+      return
 	  end
   end
 
@@ -31,10 +32,12 @@ class BankAccountsController < ApplicationController
 	  	flash[:notice] = "You Deleted #{name.titleize} From Your Team"
 	  	redirect_to request.referrer
 	  	return
-	  rescue => e
-	  	redirect_to request.referrer
-	  	flash[:error] = "#{e}"
-	  	return
+	  rescue Stripe::StripeError => e
+      body = e.json_body
+      err  = body[:error]
+      redirect_to edit_user_registration_path
+      flash[:error] = "#{err[:message]}"	  	
+      return
 	  end
   end
 
