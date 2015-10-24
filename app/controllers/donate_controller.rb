@@ -5,10 +5,10 @@ class DonateController < ApplicationController
   def create_user
     twilio_text = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
     if params[:create_user][:password] == params[:create_user][:password_confirm]
-    	crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
+      crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
       phone_number = params[:create_user][:phone_number]
-    	stripe_amount = params[:create_user][:stripe_amount].to_i
-    	fundraiser = User.find_by(username: params[:create_user][:fundraiser_name])
+      stripe_amount = params[:create_user][:stripe_amount].to_i
+      fundraiser = User.find_by(username: params[:create_user][:fundraiser_name])
       card_number = params[:create_user][:card_number]
       legal_name = params[:create_user][:legal_name]
       email = params[:create_user][:email]
@@ -47,8 +47,8 @@ class DonateController < ApplicationController
             subscription = User.subscribe_to_fundraiser(fundraiser.merchant_secret_key, new_user, a_token.id, crypt.decrypt_and_verify(fundraiser.stripe_account_id), donation_plan  )
             @donation = new_user.donations.create!(application_fee: (subscription.plan.amount * (subscription.application_fee_percent / 100 ) / 100 ) , stripe_plan_name: subscription.plan.name, stripe_subscription_id: donation_plan ,active: true, donation_type: 'subscription', subscription_id: subscription.id, organization: fundraiser.username, amount: subscription.plan.amount, uuid: SecureRandom.uuid, fundraiser_stripe_account_id: fundraiser.merchant_secret_key)
           else
-        	  User.decrypt_and_verify(fundraiser.merchant_secret_key)
-        	  charge = User.charge_n_process(fundraiser.merchant_secret_key, new_user, stripe_amount, a_token.id, crypt.decrypt_and_verify(fundraiser.stripe_account_id))
+            User.decrypt_and_verify(fundraiser.merchant_secret_key)
+            charge = User.charge_n_process(fundraiser.merchant_secret_key, new_user, stripe_amount, a_token.id, crypt.decrypt_and_verify(fundraiser.stripe_account_id))
             Stripe.api_key = Rails.configuration.stripe[:secret_key]
             @donation = new_user.donations.create!(application_fee: ((Stripe::ApplicationFee.retrieve(charge.application_fee).amount) / 100).to_f , donation_type: 'one-time', organization: fundraiser.username, amount: stripe_amount, uuid: SecureRandom.uuid)
           end
@@ -59,7 +59,7 @@ class DonateController < ApplicationController
         fundraiser.email_lists.find_or_create_by(email: email)
         Stripe.api_key = Rails.configuration.stripe[:secret_key]
         twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: phone_number , body: "#{fundraiser.username.capitalize} Thanks You For Your Donation!"})
-        redirect_to donate_path
+        redirect_to root_path
         flash[:notice] = "Thanks For The Donation"
         return
       rescue Stripe::CardError => e
@@ -69,7 +69,9 @@ class DonateController < ApplicationController
           redirect_to request.referrer
         end
         new_user.destroy!
-        flash[:error] = "#{e}"
+        body = e.json_body
+        err  = body[:error]
+        flash[:error] = "#{err[:message]}"
         return
       rescue => e
         if params[:create_user][:donation_plan].present?
@@ -78,7 +80,9 @@ class DonateController < ApplicationController
           redirect_to request.referrer
         end
         new_user.destroy!
-        flash[:error] = "#{e}"
+        body = e.json_body
+        err  = body[:error]
+        flash[:error] = "#{err[:message]}"
         return
       end
     else
