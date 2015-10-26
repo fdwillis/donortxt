@@ -7,18 +7,19 @@ class NotificationsController < ApplicationController
     twilio_text = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
     crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
     text_message = params[:Body].split
-    amount = (text_message[0].gsub(/[^0-9]/i, '').to_i)
-    if text_message[0].include?(".")
+    amount = (text_message[1].gsub(/[^0-9]/i, '').to_i)
+    if text_message[1].include?(".")
       stripe_amount = amount
     else
       stripe_amount = amount * 100
     end
 
+    debugger
     if stripe_amount >= 100 && stripe_amount < 99999999
 
-      user_search = User.find_by(username: text_message[1].downcase)
-      if text_message[1] && user_search
-        raiser_username = text_message[1].downcase
+      user_search = User.find_by(username: text_message[0].downcase)
+      if text_message[0] && user_search
+        raiser_username = text_message[0].downcase
       
         location = {
           'city' => params[:FromCity],
