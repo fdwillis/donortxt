@@ -13,8 +13,6 @@ class NotificationsController < ApplicationController
     else
       stripe_amount = amount * 100
     end
-
-    debugger
     if stripe_amount >= 100 && stripe_amount < 99999999
 
       user_search = User.find_by(username: text_message[0].downcase)
