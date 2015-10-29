@@ -63,7 +63,7 @@ namespace :payout do
             Stripe::Transfer.create(
               :amount => Stripe::Balance.retrieve()['available'][0].amount - (Stripe::Balance.retrieve()['available'][0].amount * 0.0051).to_i,
               :currency => "usd",
-              :destination => Stripe::Account.retrieve.bank_accounts.data[0].id,
+              :destination => Stripe::Account.retrieve.external_accounts.data[0].id,
               :description => "Transfer for #{ENV["MARKETPLACE_NAME"]} revenue"
             )
             puts "Solo Paid"
