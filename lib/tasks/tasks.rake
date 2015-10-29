@@ -14,7 +14,7 @@ namespace :payout do
       if user.merchant_secret_key.present?  
         if user.admin?
           trans_amount = Stripe::Balance.retrieve()['available'][0].amount
-          if trans_amount > 0
+          if trans_amount > 100
             Stripe::Transfer.create(
               :amount => Stripe::Balance.retrieve()['available'][0].amount,
               :currency => "usd",
@@ -29,7 +29,7 @@ namespace :payout do
         if user.team_members.count >= 1
           bal = Stripe::Balance.retrieve()['available'][0].amount
           user.team_members.each_with_index do |member, index|
-            if  bal > 0  
+            if  bal > 100  
               amounts = user.team_members.map{|t| ((bal * t.percent.to_i) / 100 )}
                 transfer = Stripe::Transfer.create(
                   :amount => amounts[index] - (amounts[index] * 0.0051).to_i,
@@ -54,12 +54,12 @@ namespace :payout do
               puts "No Team Payout"
             end
           end
-          Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+          Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
         else
-          Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+          Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
           User.decrypt_and_verify(user.merchant_secret_key)          
           amount = Stripe::Balance.retrieve()['available'][0].amount
-          if  amount > 0  
+          if  amount > 100  
             Stripe::Transfer.create(
               :amount => Stripe::Balance.retrieve()['available'][0].amount - (Stripe::Balance.retrieve()['available'][0].amount * 0.0051).to_i,
               :currency => "usd",
@@ -71,12 +71,12 @@ namespace :payout do
             puts "No Solo payout"
           end
         end
-        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
       else
-        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
         if user.admin?  
           bal = Stripe::Balance.retrieve()['available'][0].amount
-          if bal >= 0  
+          if bal >= 100  
             transfer = Stripe::Transfer.create(
               :amount => Stripe::Balance.retrieve()['available'][0].amount - 100,
               :currency => "usd",
@@ -93,7 +93,7 @@ namespace :payout do
       end
     end
   end
-  Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+  Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
 end
 
 namespace :stripe do
@@ -109,9 +109,9 @@ namespace :stripe do
           revenue: (Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100)
         })
         user.update_attributes(monthly_revenue: (Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100))
-        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
       else
-        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
         if user.admin?
           Keen.publish("Subscription Revenue", {
             merchant_id: user.id, 
@@ -124,7 +124,7 @@ namespace :stripe do
       end
     end
   end
-  Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+  Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
 end
 
 namespace :keen do
@@ -317,7 +317,7 @@ namespace :stripe_amounts do
           User.stripe_amounts(user)
         end
       end
-      Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+      Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
     end
   end
 end
