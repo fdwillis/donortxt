@@ -116,15 +116,15 @@ class NotificationsController < ApplicationController
           end
         else
           #Twilio message back to donater
-          twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a dollar amount first, followed by a valid username to donate to. Example: 90 valid_username"})
+          twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a dollar amount first, followed by a valid username to donate to. Example: valid_username 90"})
           return
         end
       else
-        twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a valid username to donate to. Example: 90 valid_username"})
+        twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a valid username to donate to. Example: valid_username 90"})
         return
       end
     else
-      twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a minimum dollar amount of 1 or max of 999,999.99, then a valid username to donate to. Example: 90 valid_username"})
+      twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a minimum dollar amount of 1 or max of 999,999.99, then a valid username to donate to. Example: valid_username 90"})
       return
     end
   end
