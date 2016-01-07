@@ -7,27 +7,48 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
-    <link href="/assets/footable.core.css" rel="stylesheet">
-    <link href="/assets/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link href="/assets/animate.css" rel="stylesheet">
-    <link href="/assets/style.css" rel="stylesheet">
-    <script src="/assets/jquery-2.1.1.js"></script>
-    <script src="/assets/bootstrap.min.js"></script>
-    <script src="/assets/jquery.metisMenu.js"></script>
-    <script src="/assets/jquery.slimscroll.min.js"></script>
-    <script src="/assets/inspinia.js"></script>
-    <script src="/assets/pace.min.js"></script>
-    <script src="/assets/jquery-ui.min.js"></script>
-    <script src="/assets/wow.min.js"></script>
+    <% if current_user %>  
+      <link href="/assets/footable.core.css" rel="stylesheet">
+      <link href="/assets/bootstrap.min.css" rel="stylesheet">
+      <link href="/assets/font-awesome.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <link href="/assets/animate.css" rel="stylesheet">
+      <link href="/assets/style.css" rel="stylesheet">
+
+      <script src="/assets/jquery-2.1.1.js"></script>
+      <script src="/assets/bootstrap.min.js"></script>
+      <script src="/assets/jquery.metisMenu.js"></script>
+      <script src="/assets/jquery.slimscroll.min.js"></script>
+      <script src="/assets/inspinia.js"></script>
+      <script src="/assets/pace.min.js"></script>
+      <script src="/assets/jquery-ui.min.js"></script>
+      <script src="/assets/wow.min.js"></script>
+    <% else %>
+      <!-- Foundary -->
+      <script src="/assets/f_jquery.min.js"></script>
+      <script src="/assets/f_bootstrap.min.js"></script>
+      <script src="/assets/f_flexslider.min.js"></script>
+      <script src="/assets/f_smooth-scroll.min.js"></script>
+      <script src="/assets/f_scripts.js"></script>
+
+
+      <link href="/assets/et-line-icons.css" rel="stylesheet" type="text/css" media="all">
+      <link href="/assets/themify-icons.css" rel="stylesheet" type="text/css" media="all" />
+      <link href="/assets/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+      <link href="/assets/flexslider.css" rel="stylesheet" type="text/css" media="all" />
+      <link href="/assets/lightbox.min.css" rel="stylesheet" type="text/css" media="all" />
+      <link href="/assets/ytplayer.css" rel="stylesheet" type="text/css" media="all" />
+      <link href="/assets/theme-red.css" rel="stylesheet" type="text/css" media="all" />
+      <link href="/assets/custom.css" rel="stylesheet" type="text/css" media="all" />
+      <link href='http://fonts.googleapis.com/css?family=Lato:300,400%7CRaleway:100,400,300,500,600,700%7COpen+Sans:400,500,600' rel='stylesheet' type='text/css'>
+    <% end %>
   </head>
   <% if current_user %>
     <body class='mini-navbar'>
       <div id="wrapper">
-        <%= render 'layouts/navigation'%>
+        <%= render 'layout/navigation'%>
         <div id="page-wrapper" class="gray-bg">
-          <%= render 'layouts/topnavbar' %>
+          <%= render 'layout/topnavbar' %>
           <div class="container">
             <% if flash[:notice] %>
               <div class="text-center alert alert-success">
@@ -260,53 +281,27 @@
       </div>
     </body>
   <% else %>  
-    <body id="page-top" class="landing-page gray-bg">
-      <div class="navbar-wrapper">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-          <div class="container">
-            <div class="navbar-header page-scroll">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="/"><%= ENV['MARKETPLACE_NAME'] %></a>
+    <body>
+        <div class="nav-container">
+          <% if flash[:notice] %>
+            <div class="text-center alert alert-success">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h3 class="tex-center"><%= flash[:notice] %></h3>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-              <ul class="nav navbar-nav navbar-right">
-                <li><%= link_to "Home", root_path %></li>
-                <li><a class="page-scroll" href="#features">Features</a></li>
-                <li><a class="page-scroll" href="#team">Highlights</a></li>
-                <li><a class="page-scroll" href="#testimonials">Testimonials</a></li>
-                <li><a class="page-scroll" href="#pricing">Pricing</a></li>
-                <li><a class="page-scroll" href="#contact">Contact</a></li>
-                <li><%= link_to "Sign In", new_user_session_path %></li>
-                <li><%= link_to "Sign Up", new_user_registration_path %></li>
-              </ul>
+          <% elsif flash[:error] %>
+            <div class="text-center alert alert-danger">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h3 class="tex-center"><%= flash[:error] %></h3>
             </div>
-          </div>
-          <div class="container">
-            <% if flash[:notice] %>
-              <div class="text-center alert alert-success">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h3 class="tex-center"><%= flash[:notice] %></h3>
-              </div>
-            <% elsif flash[:error] %>
-              <div class="text-center alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h3 class="tex-center"><%= flash[:error] %></h3>
-              </div>
-            <% elsif flash[:alert] %>
-              <div class="text-center alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h3 class="tex-center"><%= flash[:alert] %></h3>
-              </div>
-            <% end %>
-          </div>
-        </nav>
-      </div>
-      <%= yield %>
-    </body>
+          <% elsif flash[:alert] %>
+            <div class="text-center alert alert-warning">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h3 class="tex-center"><%= flash[:alert] %></h3>
+            </div>
+          <% end %>
+          <%= render "layouts/found_nav" %> 
+        </div>
+        <%= yield %>
+      </body>
   <% end %>
 </html>
