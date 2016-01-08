@@ -13,7 +13,8 @@
                         <h6 class="uppercase mb16">A mobile-based Donation solution</h6>
                         <p class="lead mb40">Accept donations from 79% of cell phone users via text messaging</p>
                         <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-lg' %>
-                        <%= link_to "Contact Us", '', class: 'btn btn-filled btn-lg', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
+                        <%= link_to "Contact Us", '', class: 'btn btn-filled btn-lg hidden-sm hidden-xs', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
+                        <%= link_to "Contact Us", new_contact_form_path, class: 'btn btn-filled btn-lg hidden-md hidden-lg'%>
                     </div>
                 </div>
                 
@@ -219,7 +220,8 @@
               <div class="col-sm-12 text-center">
                   <h2 class="mb8">Contact Us &amp; Get Started</h2>
                   <p class="lead mb40 mb-xs-24">Questions? Feedback? We'd Love To Hear From You!</p>
-                  <%= link_to "Contact Us", '', class: 'btn btn-filled btn-lg', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
+                  <%= link_to "Contact Us", '', class: 'btn btn-filled btn-lg hidden-sm hidden-xs', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
+                  <%= link_to "Contact Us", new_contact_form_path, class: 'btn btn-filled btn-lg hidden-md hidden-lg'%>
               </div>
           </div>
       </div>
