@@ -25,4 +25,8 @@ class HomeController < ApplicationController
   def terms
       
   end
+
+  def give
+      
+  end
 end
