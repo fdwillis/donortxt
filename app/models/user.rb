@@ -180,6 +180,7 @@ class User < ActiveRecord::Base
       
       User.decrypt_and_verify(secret_key)
       User.find_stripe_customer_id(user)
+      
       if !@customer_account.nil? && @customer_account.present?
         customer_card = @customer_account.customer_card
         charge = Stripe::Charge.create(
@@ -308,8 +309,9 @@ class User < ActiveRecord::Base
         decline_charge_on: {
           cvc_failure: true,
         },
-        transfer_schedule:{
-          interval: 'manual',
+        transfer_schedule: {
+          interval: 'weekly',
+          weekly_anchor: 'friday'
         },
       )
     end
