@@ -253,7 +253,6 @@ class User < ActiveRecord::Base
     def self.subscribe_to_admin(user, token, donation_plan)
 
       User.find_stripe_customer_id(user)
-
       if !@customer_account.nil? && @customer_account.present?
         customer_card = @customer_account.customer_card
       else
