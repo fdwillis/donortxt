@@ -5,7 +5,6 @@ class Notify < ApplicationMailer
     @user = user
     if !@user.admin?  
       @mail = mail(to: user.email, subject: "Fundraising Account Approved") do |format|
-        format.text
         format.html
       end
     end
@@ -16,7 +15,6 @@ class Notify < ApplicationMailer
     emails.each do |email|
       @email = email
       @mail = mail(from: sender_email, to: email, subject: subject) do |format|
-        format.text
         format.html
       end
     end
@@ -27,7 +25,6 @@ class Notify < ApplicationMailer
     @raiser = raiser
     @amount = (amount.to_f / 100)
     @mail = mail(to: raiser.email, subject: "Canceled Subscription") do |format|
-      format.text
       format.html
     end
   end
