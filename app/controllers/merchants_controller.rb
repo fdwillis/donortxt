@@ -60,7 +60,7 @@ class MerchantsController < ApplicationController
       marketplace_name: ENV["MARKETPLACE_NAME"]
     })
     redirect_to merchants_path
-    email = Notify.account_approved(@account).deliver
+    email = Notify.account_approved(@account).deliver_now
     flash[:notice] = "#{@account.username.capitalize}'s Account Was Approved"
   end
 end
