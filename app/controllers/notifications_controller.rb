@@ -174,7 +174,6 @@ class NotificationsController < ApplicationController
   end
 
   def stripe
-    render nothing: true, status: :ok
     cus_id = params['data']['object']['customer']
     current_user = User.find_by(marketplace_stripe_id: cus_id)
     plan = params['data']['object']['lines']['data'].first
