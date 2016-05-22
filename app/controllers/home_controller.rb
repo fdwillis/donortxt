@@ -22,8 +22,22 @@ class HomeController < ApplicationController
     #   })
     # end
   end
+
   def terms
-      
+  end
+
+  def direct_donate
+    begin
+      token = User.new_token(params[:direct_donate])
+      stripe_amount = User.stripe_amount(params[:direct_donate][:amount])
+      User.donate_100(token, stripe_amount, params[:direct_donate][:email])
+      flash[:notice] = "We appreciate your donation!"
+    rescue Stripe::CardError => e
+      flash[:error] = e.json_body[:error][:message]
+    rescue Exception => e
+      flash[:error] = e
+    end
+    redirect_to root_path
   end
 
   def give

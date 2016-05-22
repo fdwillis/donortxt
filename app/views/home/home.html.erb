@@ -1,282 +1,42 @@
 
 <div class="main-container">
-  <section class="cover fullscreen image-slider slider-all-controls controls-inside">
-    <ul class="slides">
-        <li class="overlay image-bg">
-            <div class="background-image-holder">
-              <%= image_tag "hero1.jpg", class: "background-image"  %>
-            </div>
-            <div class="container v-align-transform">
-                <div class="row">
-                    <div class="col-md-6 col-sm-8">
-                        <h1 class="mb40 mb-xs-16 large">DonorTxt</h1>
-                        <h6 class="uppercase mb16">A mobile-based Donation solution</h6>
-                        <p class="lead mb40">Accept donations from 79% of cell phone users via text messaging</p>
-                        <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-lg' %>
-                        <%= link_to "Contact Us", '', class: 'btn btn-filled btn-lg hidden-sm hidden-xs', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
-                        <%= link_to "Contact Us", new_contact_form_path, class: 'btn btn-filled btn-lg hidden-md hidden-lg'%>
-                    </div>
-                </div>
-                
-            </div>
-            
-        </li>
-    </ul>
-  </section>
-  <section id='features'>
-      <div class="container">
-          <div class="row">
-              <div class="col-md-4 col-sm-6">
-                  <div class="feature feature-3 mb-xs-24 mb64">
-                      <div class="left">
-                          <i class="ti-panel icon-sm"></i>
-                      </div>
-                      <div class="right">
-                          <h5 class="uppercase mb16">Text-to donate</h5>
-                          <p>
-                              Accept money via text messaging. Users simply specify a dollar amount &amp; your user name.
-                          </p>
-                      </div>
-                  </div>
-                  
-              </div>
-              <div class="col-md-4 col-sm-6">
-                  <div class="feature feature-3 mb-xs-24 mb64">
-                      <div class="left">
-                          <i class="ti-medall icon-sm"></i>
-                      </div>
-                      <div class="right">
-                          <h5 class="uppercase mb16">unlimited campaigns</h5>
-                          <p>
-                              Unlimited amount of campaigns for the community, your organization, or any individual you'd like to raise money for
-                          </p>
-                      </div>
-                  </div>
-                  
-              </div>
-              <div class="col-md-4 col-sm-6">
-                  <div class="feature feature-3 mb-xs-24 mb64">
-                      <div class="left">
-                          <i class="ti-layout icon-sm"></i>
-                      </div>
-                      <div class="right">
-                          <h5 class="uppercase mb16">message blasts</h5>
-                          <p>
-                              When people donate to you, they are added to your notification. You can email &amp; text them directly afterwards!
-                          </p>
-                      </div>
-                  </div>
-                  
-              </div>
-              <div class="col-md-4 col-sm-6">
-                  <div class="feature feature-3 mb-xs-24 mb64">
-                      <div class="left">
-                          <i class="ti-comment-alt icon-sm"></i>
-                      </div>
-                      <div class="right">
-                          <h5 class="uppercase mb16">global reach</h5>
-                          <p>
-                              Accept payments from 22 different countries... a global audience.
-                          </p>
-                      </div>
-                  </div>
-                  
-              </div>
-              <div class="col-md-4 col-sm-6">
-                  <div class="feature feature-3 mb-xs-24">
-                      <div class="left">
-                          <i class="ti-infinite icon-sm"></i>
-                      </div>
-                      <div class="right">
-                          <h5 class="uppercase mb16">recurring gifts</h5>
-                          <p>
-                              As a fundraising organization, you can create monthly plans that your donors and organization members can subscribe to!
-                          </p>
-                      </div>
-                  </div>
-                  
-              </div>
-              <div class="col-md-4 col-sm-6">
-                  <div class="feature feature-3 mb-xs-24">
-                      <div class="left">
-                          <i class="ti-dashboard icon-sm"></i>
-                      </div>
-                      <div class="right">
-                          <h5 class="uppercase mb16">weekly payout</h5>
-                          <p>
-                              All funds are paid on Friday of every week. All transactions &amp; transfers are subject to Stripe fees
-                          </p>
-                      </div>
-                  </div>
-                  
-              </div>
-          </div>
-          
-      </div>
-  </section>
-  <section class="page-title page-title-3 image-bg overlay">
-      <div class="background-image-holder">
-        <%= image_tag "cover14.jpg", class: "background-image" %>
-      </div>
-      <div class="container">
-          <div class="row">
-              <div class="col-sm-12 text-center">
-                  <h3 class="uppercase mb0">Join us</h3>
-              </div>
-          </div>
-          
-      </div>            
-  </section>
-  <section>
-      <div class="container">
-          <div class="row">
-              <div class="col-md-8 col-md-offset-2 col-sm-12 text-center">
-                  <h4 class="uppercase mb80">The Process</h4>
-                  <div class="tabbed-content icon-tabs">
-                      <ul class="tabs">
-                          <li class="active">
-                              <div class="tab-title">
-                                  <i class="ti-layers icon"></i>
-                                  <span>Sign up</span>
-                              </div>
-                              <div class="tab-content">
-                                  <p>
-                                      Click signup to get started. Enter your email address, choose a username and continue to our plans page.
-                                  </p>
-                              </div>
-                          </li>
-                          <li>
-                              <div class="tab-title">
-                                  <i class="ti-package icon"></i>
-                                  <span>Application</span>
-                              </div>
-                              <div class="tab-content">
-                                  <p>
-                                      After you've signup, navigate to our plans page to access the 2 step form submission.
-                                  </p>
-                              </div>
-                          </li>
-                          <li>
-                              <div class="tab-title">
-                                  <i class="ti-stats-up icon"></i>
-                                  <span>go</span>
-                              </div>
-                              <div class="tab-content">
-                                  <p>
-                                      After you've been approved, you can start fundraising as often as you'd like!
-                                  </p>
-                              </div>
-                          </li>
-                          
-                      </ul>
-                  </div>
-                  
-              </div>
-          </div>
-          
-      </div>
-  </section>
   <section class="image-bg overlay">
-            <div class="background-image-holder">
-              <%= image_tag "cover15.jpg", class: 'background-image' %>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 text-center">
-                        <h2 class="mb16">Our Founders</h2>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="feature feature-1 boxed">
-                        <div class="text-center">
-                          <%= image_tag "greg1.jpg" %>
-                          <br>
-                          <br>
-                          <h5 class="uppercase">Greg Stfort</h5>
-                        </div>
-                        <p class='text-center'>
-                           Greg has a passion for building communities. He specializes in marketing and event production. He founded LetsKeepBuilding, leads a co-working community called 100state and is a board member of several nonprofits in New York and Madison. 
-                        </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="feature feature-1 boxed">
-                        <div class="text-center">
-                          <%= image_tag "me1.jpg" %>
-                          <br>
-                          <br>
-                          <h5 class="uppercase">Fred Willis</h5>
-                        </div>
-                        <p class='text-center'>
-                          Fred, a self-taught programmer &amp; entrepreneur, has been active in the Tech Community, helping produce many beneficial applications to Madison based businesses.  Recently Fred has been dedicated to helping non-profits update their websites.
-                        </p>
-                    </div>
-                  </div>
-                </div>
-                
-            </div>
-            
-        </section>
-  <section id="pricing">
-      <div class="container">
-          <div class="row v-align-children">
-              
-              <div class="col-sm-6 col-md-6">
-                  <div class="pricing-table pt-1 text-center emphasis">
-                      <span class="price">$39.99&nbsp;<br>+ 5%<br></span>
-                      <p class="lead">Per Month</p>
-                      <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-clear btn-lg' %>
-                  </div>
+    <div class="background-image-holder">
+        <img alt="Background" class="background-image" src="/assets/100state-space.jpg">
+    </div>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+            <div class="feature feature-1 boxed text-center">
+              <div class="text-center">
+                  <img alt="Background" class="background-image" src="/assets/100statelogo.png">
+                  <br>
+                  <br>
+                  <h5 class="uppercase"> We Appreciate Your Donations</h5>
               </div>
-          <div class="col-sm-5">
-                  <h3>Join us for a better fundraising experience</h3>
-                  
-                  <div class="overflow-hidden mb32 mb-xs-24">
-                      <i class="icon pull-left ti ti-mobile icon-sm"></i>
-                      <h6 class="uppercase mb0 inline-block p32">Text-to donate</h6>
-                  </div>
-                  <div class="overflow-hidden mb32 mb-xs-24">
-                      <i class="icon pull-left ti ti-money icon-sm"></i>
-                      <h6 class="uppercase mb0 inline-block p32">weekly payouts</h6>
-                  </div><div class="overflow-hidden mb32 mb-xs-24">
-                      <i class="icon pull-left ti ti-plug icon-sm"></i>
-                      <h6 class="uppercase mb0 inline-block p32">stay connected</h6>
-                  </div><div class="overflow-hidden mb32 mb-xs-24">
-                      <i class="icon pull-left et-line-global icon-sm"></i>
-                      <h6 class="uppercase mb0 inline-block p32">global reach</h6>
-                  </div><div class="overflow-hidden mb32 mb-xs-24">
-                      <i class="icon pull-left ti ti-gift icon-sm"></i>
-                      <h6 class="uppercase mb0 inline-block p32">recurring gifts</h6>
-                  </div><div class="overflow-hidden mb32 mb-xs-24">
-                      <i class="icon pull-left ti ti-bar-chart icon-sm"></i>
-                      <h6 class="uppercase mb0 inline-block p32">Real-time analytics</h6>
-                  </div>
-              </div></div>
-          
-      </div>
-  </section>
-  <section class="bg-dark pt64 pb64">
-      <div class="container">
-          <div class="row">
-              <div class="col-sm-12 text-center">
-                  <h2 class="mb8">Contact Us &amp; Get Started</h2>
-                  <p class="lead mb40 mb-xs-24">Questions? Feedback? We'd Love To Hear From You!</p>
-                  <%= link_to "Contact Us", '', class: 'btn btn-filled btn-lg hidden-sm hidden-xs', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
-                  <%= link_to "Contact Us", new_contact_form_path, class: 'btn btn-filled btn-lg hidden-md hidden-lg'%>
-              </div>
+              <%= form_for :direct_donate, url: direct_donate_path, method: :post do |f| %>
+                <%= f.text_field :amount, placeholder: "Donation amount: 10" %>
+                <%= f.text_field :legal_name, placeholder: "Name on card" %>
+                <%= f.text_field :email, placeholder: "Email address(for receipt)" %>
+                <%= f.text_field :card, placeholder: "Card number", maxlength: 16 %>
+                <%= f.text_field :exp_month, placeholder: "Expiration Month: 09", maxlength: 16 %>
+                <%= f.text_field :exp_year, placeholder: "Expiration Year: 2020", maxlength: 16 %>
+                <%= f.text_field :cvc, placeholder: "CVC Number: 020", maxlength: 16 %>
+                <%= f.submit "Donate" %>
+              <% end %>
+            </div>
           </div>
-      </div>
-  </section>
+        </div>
+    </div>
+    
+</section>
 
   <footer class="footer-2 bg-dark text-center">
     <div class="container">
       <div class="row">            
         <div class="text-center">
           <span class="fade-half">
-            © Copyright 2015 DonorTxt - All Rights Reserved
+            © Copyright 2015-<%= DateTime.now.strftime("%Y") %> 100State inc. - All Rights Reserved
           </span>
         </div>            
       </div>

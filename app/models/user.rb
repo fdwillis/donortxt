@@ -104,6 +104,27 @@ class User < ActiveRecord::Base
    "************#{last_digits(number)}"
   end
   protected
+    def self.donate_100(token, amount, email)
+      Stripe::Charge.create(
+        :amount => amount,
+        :currency => "usd",
+        :source => token, # obtained with Stripe.js
+        :description => "Donation to 100State",
+        receipt_email: email,
+      )
+    end
+
+    def self.stripe_amount(amount)
+      converted = (amount.gsub(/[^0-9]/i, '').to_i)
+
+      if amount.include?(".")
+        stripe_amount = converted
+        return stripe_amount
+      else
+        stripe_amount = converted * 100
+        return stripe_amount
+      end
+    end
 
     def self.stripe_amounts(user)
       next_transfer = Stripe::Balance.retrieve.available[0].amount.to_f / 100
@@ -136,14 +157,14 @@ class User < ActiveRecord::Base
       })
     end
 
-    def self.new_token(current_user, card)
+    def self.new_token(form)
       Stripe::Token.create(
         card: {
-          number: card,
-          exp_month: current_user.exp_month,
-          exp_year: current_user.exp_year,
-          cvc: current_user.cvc_number,
-          name: current_user.legal_name,
+          number: form["card"],
+          exp_month: form["exp_month"],
+          exp_year: form["exp_year"],
+          cvc: form["cvc"],
+          name: form["legal_name"],
         },
       )
     end

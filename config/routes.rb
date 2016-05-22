@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   put 'twilio/text_blast' => 'twilio#text_blast'
   put 'twilio/email_blast' => 'twilio#email_blast'
   
+  post 'direct_donate' => 'home#direct_donate'
   post 'notifications/twilio' => 'notifications#twilio'
   post 'notifications/stripe' => 'notifications#stripe'
   post 'notifications/import_numbers' => 'notifications#import_numbers'
