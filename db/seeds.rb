@@ -8,10 +8,8 @@ account = Stripe::Account.create(
     object: 'bank_account',
     country: "US",
     currency: "usd",
-    routing_number: "110000000",
-    account_number: "000123456789",
-    # routing_number: "275979076",
-    # account_number: "0430852605",
+    routing_number: ENV["ROUTING_NUMBER"],
+    account_number: ENV["ACCOUNT_NUMBER"],
   },
   tos_acceptance: {
     ip: "64.7.13.8",
@@ -23,11 +21,12 @@ account = Stripe::Account.create(
     business_name: "Hacknvest LLC",
     first_name: "Frederick",
     last_name: "Willis",
-    business_tax_id: "393112502",
+    business_tax_id: ENV["TAX_ID"],
+    ssn_last_4: ENV["TAX_ID"][5..10],
     dob: {
       day: "31",
       month: "12",
-      year: "1992",
+      year: ENV["BIRTH_YEAR"],
     },
     address: {
       line1: "526 west wilson",
