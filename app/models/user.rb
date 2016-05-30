@@ -112,6 +112,9 @@ class User < ActiveRecord::Base
         :description => "Donation to 100State",
         receipt_email: email,
       )
+      state = ((amount * 93) / 100)
+      hack = amount - state
+      StripeCharge.create(state: state, hack: hack)
     end
 
     def self.stripe_amount(amount)

@@ -1,4 +1,4 @@
-Stripe::Account.create(
+account = Stripe::Account.create(
   managed: true,
   country: "US",
   email: "fdwillis7@gmail.com",
