@@ -11,7 +11,7 @@ namespace :payout do
     Stripe::Transfer.create(
       :amount => (Stripe::Balance.retrieve()['available'][0].amount * 7)/100,
       :currency => "usd",
-      :destination => "acct_18GtbRIw0yDftdIT",
+      :destination => "acct_18Gu8kBa0SNFlc27",
       :description => "Transfer for 100stategivers revenue"
     )
 
