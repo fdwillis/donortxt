@@ -1,12 +1,12 @@
 Stripe::Account.create(
   managed: true,
-  country: "us",
+  country: "US",
   email: "fdwillis7@gmail.com",
   business_name: "Hacknvest LLC",
   debit_negative_balances: true,
   external_account: {
     object: 'bank_account',
-    country: "us",
+    country: "US",
     currency: "usd",
     routing_number: "110000000",
     account_number: "000123456789",
@@ -34,7 +34,7 @@ Stripe::Account.create(
       city: "Madison",
       state: "WI",
       postal_code: "53703",
-      country: "us",
+      country: "US",
     }
   },
   decline_charge_on: {
