@@ -8,8 +8,10 @@ account = Stripe::Account.create(
     object: 'bank_account',
     country: "US",
     currency: "usd",
+    # routing_number: "110000000",
     routing_number: ENV["ROUTING_NUMBER"],
     account_number: ENV["ACCOUNT_NUMBER"],
+    # account_number: "000123456789",
   },
   tos_acceptance: {
     ip: "64.7.13.8",
@@ -40,6 +42,11 @@ account = Stripe::Account.create(
     cvc_failure: true,
   },
   transfer_schedule: {
-    interval: 'manual',
+    interval: 'weekly',
+    weekly_anchor: "friday"
   },
 )
+
+
+StripeAccount.destroy_all
+StripeAccount.create(stripe_id: account.id, secret_key: account.keys.secret)

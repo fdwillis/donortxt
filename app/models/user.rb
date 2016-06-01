@@ -105,13 +105,24 @@ class User < ActiveRecord::Base
   end
   protected
     def self.donate_100(token, amount, email)
-      Stripe::Charge.create(
-        :amount => amount,
-        :currency => "usd",
-        :source => token, # obtained with Stripe.js
-        :description => "Donation to 100State",
-        receipt_email: email,
-      )
+
+      amount = amount
+      merchant60 = ((amount) * 7) / 100
+      fee = (amount - merchant60)
+
+
+      charge = Stripe::Charge.create(
+        {
+          amount: amount,
+          currency: 'usd',
+          source: token ,
+          description: "Donation to 100State",
+          receipt_email: email,
+          application_fee: fee,
+        },
+        {stripe_account: StripeAccount.first.stripe_id}
+      )  
+
       state = ((amount * 93) / 100)
       hack = amount - state
       StripeCharge.create(state: state, hack: hack)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530170652) do
+ActiveRecord::Schema.define(version: 20160601054647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -292,6 +292,13 @@ ActiveRecord::Schema.define(version: 20160530170652) do
   end
 
   add_index "sign_ups", ["user_id"], name: "index_sign_ups_on_user_id", using: :btree
+
+  create_table "stripe_accounts", force: :cascade do |t|
+    t.string   "stripe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "secret_key"
+  end
 
   create_table "stripe_charges", force: :cascade do |t|
     t.float    "state"
